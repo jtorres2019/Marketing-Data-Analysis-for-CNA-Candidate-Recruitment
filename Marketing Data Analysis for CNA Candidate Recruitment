@@ -1,0 +1,69 @@
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Generate sample recruitment data
+data = {
+    'County': ['County A', 'County B', 'County C', 'County D', 'County E'],
+    'Candidates_Sourced': [100, 120, 90, 80, 110],
+    'Candidates_Applied': [50, 60, 45, 40, 55],
+    'Candidates_Hired': [30, 35, 25, 20, 28]
+}
+
+recruitment_df = pd.DataFrame(data)
+
+# Summary statistics
+print("Summary Statistics for Candidate Recruitment Data:")
+print(recruitment_df.describe())
+
+# Data visualization
+plt.figure(figsize=(12, 6))
+
+# Plot candidates sourced
+plt.subplot(1, 2, 1)
+sns.barplot(x='County', y='Candidates_Sourced', data=recruitment_df, palette='Blues')
+plt.title('Candidates Sourced by County')
+plt.xlabel('County')
+plt.ylabel('Candidates Sourced')
+
+# Plot candidates hired
+plt.subplot(1, 2, 2)
+sns.barplot(x='County', y='Candidates_Hired', data=recruitment_df, palette='Greens')
+plt.title('Candidates Hired by County')
+plt.xlabel('County')
+plt.ylabel('Candidates Hired')
+
+plt.tight_layout()
+plt.show()
+
+# SQL-like querying using pandas
+selected_counties = recruitment_df[recruitment_df['Candidates_Applied'] > 50]
+print("\nCounties with more than 50 Candidates Applied:")
+print(selected_counties)
+
+# Data analysis using Python
+total_candidates = recruitment_df['Candidates_Applied'].sum()
+average_candidates_per_county = recruitment_df['Candidates_Applied'].mean()
+max_candidates_county = recruitment_df.loc[recruitment_df['Candidates_Applied'].idxmax()]['County']
+
+print("\nTotal Candidates Applied:", total_candidates)
+print("Average Candidates per County:", average_candidates_per_county)
+print("County with the Most Candidates Applied:", max_candidates_county)
+
+# Data analysis - Calculating the conversion rate
+recruitment_df['Conversion_Rate'] = (recruitment_df['Candidates_Hired'] / recruitment_df['Candidates_Applied']) * 100
+
+# Visualization - Conversion Rate
+plt.figure(figsize=(8, 6))
+sns.barplot(x='County', y='Conversion_Rate', data=recruitment_df, palette='Oranges')
+plt.title('Conversion Rate by County')
+plt.xlabel('County')
+plt.ylabel('Conversion Rate (%)')
+plt.show()
+
+# Data analysis - Identifying counties with high conversion rates
+high_conversion_counties = recruitment_df[recruitment_df['Conversion_Rate'] > 50]
+print("\nCounties with a Conversion Rate over 50%:")
+print(high_conversion_counties)
